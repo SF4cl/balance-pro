@@ -108,6 +108,18 @@ const osThreadAttr_t RefereeTask_attributes = {
   .stack_size = sizeof(RefereeTaskBuffer),
   .priority = (osPriority_t) osPriorityHigh,
 };
+/* Definitions for CansendTask */
+osThreadId_t CansendTaskHandle;
+uint32_t CansendTaskBuffer[ 1024 ];
+osStaticThreadDef_t CansendTaskControlBlock;
+const osThreadAttr_t CansendTask_attributes = {
+  .name = "CansendTask",
+  .cb_mem = &CansendTaskControlBlock,
+  .cb_size = sizeof(CansendTaskControlBlock),
+  .stack_mem = &CansendTaskBuffer[0],
+  .stack_size = sizeof(CansendTaskBuffer),
+  .priority = (osPriority_t) osPriorityRealtime,
+};
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -119,6 +131,7 @@ void ImuTask_Entry(void *argument);
 void EstimatorTask_Entry(void *argument);
 void ChassisTask_Entry(void *argument);
 void RefereeTask_Entry(void *argument);
+void CansendTask_Entry(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -163,6 +176,9 @@ void MX_FREERTOS_Init(void) {
 
   /* creation of RefereeTask */
   RefereeTaskHandle = osThreadNew(RefereeTask_Entry, NULL, &RefereeTask_attributes);
+
+  /* creation of CansendTask */
+  CansendTaskHandle = osThreadNew(CansendTask_Entry, NULL, &CansendTask_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -262,6 +278,24 @@ __weak void RefereeTask_Entry(void *argument)
     osDelay(1);
   }
   /* USER CODE END RefereeTask_Entry */
+}
+
+/* USER CODE BEGIN Header_CansendTask_Entry */
+/**
+* @brief Function implementing the CansendTask thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_CansendTask_Entry */
+__weak void CansendTask_Entry(void *argument)
+{
+  /* USER CODE BEGIN CansendTask_Entry */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END CansendTask_Entry */
 }
 
 /* Private application code --------------------------------------------------*/

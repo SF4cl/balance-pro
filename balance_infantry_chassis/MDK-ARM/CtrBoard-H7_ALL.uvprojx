@@ -1320,6 +1320,11 @@
               <FileType>1</FileType>
               <FilePath>..\App\referee_task.c</FilePath>
             </File>
+            <File>
+              <FileName>cansend_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\App\cansend_task.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
